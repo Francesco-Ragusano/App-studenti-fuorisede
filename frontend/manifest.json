@@ -1,0 +1,9 @@
+{
+  "name": "App Studenti Fuori Sede - Finanze",
+  "short_name": "Finanze",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#eef3fb",
+  "theme_color": "#11306e",
+  "orientation": "portrait"
+}

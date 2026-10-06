@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#11306E" />
+<title>Finanze</title>
+<link rel="manifest" href="manifest.json" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<div class="app">
+
+  <header class="app-header">
+    <span class="app-header__title">Finanze</span>
+    <div class="app-header__right">
+      <span class="app-header__date" id="data-oggi"></span>
+      <button class="icon-btn" id="btn-impostazioni" aria-label="Impostazioni budget">
+        <svg viewBox="0 0 24 24" class="icon-btn__svg">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 13a7.7 7.7 0 0 0 0-2l2-1.5-2-3.5-2.4 1a7.6 7.6 0 0 0-1.7-1l-.4-2.6H9.1l-.4 2.6a7.6 7.6 0 0 0-1.7 1l-2.4-1-2 3.5L4.6 11a7.7 7.7 0 0 0 0 2l-2 1.5 2 3.5 2.4-1a7.6 7.6 0 0 0 1.7 1l.4 2.6h4.8l.4-2.6a7.6 7.6 0 0 0 1.7-1l2.4 1 2-3.5z"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="screen" id="screen-home">
+
+    <!-- Budget di oggi -->
+    <section class="card card--hero">
+      <div class="ring" id="ring">
+        <svg viewBox="0 0 120 120" class="ring__svg">
+          <circle cx="60" cy="60" r="52" class="ring__track" />
+          <circle cx="60" cy="60" r="52" class="ring__progress" id="ring-progress" />
+        </svg>
+        <div class="ring__label">
+          <span class="ring__value" id="speso-oggi">€0</span>
+          <span class="ring__divider">/</span>
+          <span class="ring__total" id="budget-giornaliero">€0</span>
+        </div>
+      </div>
+      <p class="hero__scarto" id="scarto-oggi">—</p>
+    </section>
+
+    <!-- Entrate / Uscite del mese -->
+    <section class="card card--split">
+      <div class="split__item">
+        <span class="split__label">Entrate</span>
+        <span class="split__value split__value--green" id="entrate-mese">€0</span>
+      </div>
+      <div class="split__divider"></div>
+      <div class="split__item">
+        <span class="split__label">Uscite</span>
+        <span class="split__value split__value--red" id="uscite-mese">€0</span>
+      </div>
+    </section>
+
+    <!-- Criticità categorie -->
+    <section id="alert-container"></section>
+
+    <!-- Transazioni -->
+    <section class="card">
+      <div class="card__header">
+        <button class="card__title card__title--link" id="btn-apri-storico">Transazioni ›</button>
+        <button class="btn-nuova" id="btn-nuova">+ Nuova</button>
+      </div>
+      <ul class="transazioni" id="transazioni-list">
+        <li class="transazioni__empty">Caricamento...</li>
+      </ul>
+    </section>
+
+  </main>
+
+  <main class="screen screen--storico" id="screen-storico" style="display:none">
+
+    <div class="storico-header">
+      <button class="icon-btn" id="btn-chiudi-storico" aria-label="Torna indietro">
+        <svg viewBox="0 0 24 24" class="icon-btn__svg"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <span class="storico-header__title">Storico transazioni</span>
+      <div style="width:34px"></div>
+    </div>
+
+    <div class="storico-mese-nav">
+      <button class="storico-mese-nav__btn" id="storico-mese-prev" aria-label="Mese precedente">‹</button>
+      <span class="storico-mese-nav__label" id="storico-mese-label">—</span>
+      <button class="storico-mese-nav__btn" id="storico-mese-next" aria-label="Mese successivo">›</button>
+    </div>
+
+    <div class="storico-filtri">
+      <select id="storico-filtro-categoria">
+        <option value="">Tutte le categorie</option>
+        <option value="cibo">Cibo</option>
+        <option value="istruzione">Istruzione</option>
+        <option value="svago">Svago</option>
+        <option value="trasporti">Trasporti</option>
+        <option value="casa">Casa</option>
+        <option value="salute">Salute</option>
+        <option value="altro">Altro</option>
+      </select>
+    </div>
+
+    <div class="storico-riepilogo" id="storico-riepilogo"></div>
+
+    <div class="storico-lista" id="storico-lista">
+      <p class="transazioni__empty">Caricamento...</p>
+    </div>
+
+  </main>
+
+  <nav class="bottom-nav">
+    <button class="bottom-nav__item" data-modulo="tempo">
+      <svg viewBox="0 0 24 24" class="bottom-nav__icon"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+      <span>Tempo</span>
+    </button>
+    <button class="bottom-nav__item bottom-nav__item--active" data-modulo="finanza">
+      <svg viewBox="0 0 24 24" class="bottom-nav__icon"><circle cx="12" cy="12" r="9"/><path d="M12 5.95v12.1"/><path d="M15.03 8.15H10.9a1.93 1.93 0 0 0 0 3.85h2.75a1.93 1.93 0 0 1 0 3.85H8.98"/></svg>
+      <span>Finanza</span>
+    </button>
+    <button class="bottom-nav__item" data-modulo="studio">
+      <svg viewBox="0 0 24 24" class="bottom-nav__icon"><path d="M4 6.5C4 5.1 5.1 4 6.5 4H12v16H6.5C5.1 20 4 18.9 4 17.5z"/><path d="M20 6.5C20 5.1 18.9 4 17.5 4H12v16h5.5c1.4 0 2.5-1.1 2.5-2.5z"/></svg>
+      <span>Studio</span>
+    </button>
+  </nav>
+
+</div>
+
+<!-- Modale nuova transazione -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <div class="modal__header">
+      <span class="modal__title">Nuova transazione</span>
+      <button class="modal__close" id="modal-close">&times;</button>
+    </div>
+
+    <form id="form-transazione" class="modal__form">
+
+      <div class="toggle-tipo" id="toggle-tipo">
+        <button type="button" class="toggle-tipo__btn toggle-tipo__btn--active" data-tipo="uscita">Uscita</button>
+        <button type="button" class="toggle-tipo__btn" data-tipo="entrata">Entrata</button>
+      </div>
+
+      <label class="field">
+        <span class="field__label">Importo (€)</span>
+        <input type="number" step="0.01" min="0" id="input-importo" required />
+      </label>
+
+      <label class="field">
+        <span class="field__label">Data</span>
+        <div class="field__row">
+          <input type="date" id="input-data" required />
+          <button type="button" class="btn-oggi" id="btn-oggi">Oggi</button>
+        </div>
+      </label>
+
+      <label class="field">
+        <span class="field__label">Categoria</span>
+        <select id="input-categoria">
+          <option value="cibo">Cibo</option>
+          <option value="istruzione">Istruzione</option>
+          <option value="svago">Svago</option>
+          <option value="trasporti">Trasporti</option>
+          <option value="casa">Casa</option>
+          <option value="salute">Salute</option>
+          <option value="altro">Altro</option>
+        </select>
+      </label>
+
+      <label class="field" id="field-necessita">
+        <span class="field__label">Livello di necessità</span>
+        <select id="input-necessita">
+          <option value="essenziale">Essenziale</option>
+          <option value="utile">Utile</option>
+          <option value="superfluo">Superfluo</option>
+        </select>
+      </label>
+
+      <label class="field">
+        <span class="field__label">Note (opzionale)</span>
+        <input type="text" id="input-note" placeholder="es. benzina, cena con amici..." />
+      </label>
+
+      <button type="submit" class="btn-salva">Salva transazione</button>
+    </form>
+  </div>
+</div>
+
+<!-- Modale impostazione/modifica budget mensile -->
+<div class="modal-overlay" id="modal-overlay-budget">
+  <div class="modal">
+    <div class="modal__header">
+      <span class="modal__title" id="budget-modal-title">Budget del mese</span>
+      <button class="modal__close" id="modal-budget-close">&times;</button>
+    </div>
+
+    <p class="modal__hint" id="budget-modal-hint">
+      Il budget resta fisso per tutto il mese: lo puoi rivedere qui in qualsiasi momento.
+    </p>
+
+    <form id="form-budget" class="modal__form">
+      <label class="field">
+        <span class="field__label">Disponibilità totale del mese (€)</span>
+        <input type="number" step="0.01" min="0" id="input-budget-importo" required />
+      </label>
+      <button type="submit" class="btn-salva">Salva budget</button>
+    </form>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
