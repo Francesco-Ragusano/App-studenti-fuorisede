@@ -438,6 +438,11 @@ body {
   font-size: 18px;
   color: var(--muted);
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  padding: 0;
 }
 
 .toggle-tipo {
