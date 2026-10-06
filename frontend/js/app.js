@@ -6,7 +6,7 @@ const API_BASE = (() => {
   const inLocale = ["localhost", "127.0.0.1"].includes(location.hostname);
   return inLocale
     ? "http://localhost:8000/finanza"
-    : "https://IL-TUO-BACKEND.onrender.com/finanza"; // TODO: sostituisci dopo il deploy del backend
+    : "https://app-studenti-fuorisede.onrender.com/finanza";
 })();
 
 const oggi = new Date();
