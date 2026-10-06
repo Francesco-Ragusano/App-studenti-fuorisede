@@ -1,74 +1,58 @@
-# App Studenti Fuori Sede - modulo Finanza
+# App Studenti Fuori Sede
 
-Backend (FastAPI) + frontend (PWA) del modulo finanza.
+A personal organization app for students — currently in development, starting with the finance module.
 
-## Avvio del backend
+**Status:** active development · personal use
 
-```bash
-# 1. Ambiente virtuale (consigliato)
-python3 -m venv venv
-source venv/bin/activate        # Windows: venv\Scripts\Activate.ps1
+## What it does
 
-# 2. Dipendenze
-pip install -r requirements.txt
+- Tracks income and expenses, tagged by category and necessity level
+- Fixed monthly budget with a daily spending target
+- Daily and monthly spending overview, with alerts when a category runs over its historical average
+- Full transaction history, filterable by month and category
 
-# 3. Avvio
-uvicorn main:app --reload
+Two more modules are planned: time management and study tracking, sharing the same backend and database.
+
+## Stack
+
+- **Backend:** FastAPI + SQLAlchemy (SQLite locally, PostgreSQL in production)
+- **Frontend:** Progressive Web App (vanilla HTML/CSS/JS) — installable on Android, no build step
+- **Planned:** migration to React Native for native iOS/Android distribution
+
+## Project structure
+
+```
+main.py              FastAPI entry point, CORS, module routing
+database.py           Shared DB connection across modules
+finanza/               Finance module (models, business logic, API routes)
+tempo/                  Time management module (scaffolded, not yet built)
+studio/                  Study tracking module (scaffolded, not yet built)
+frontend/
+  index.html             App shell
+  css/, js/                Styles and client logic
 ```
 
-Backend su `http://localhost:8000`. Documentazione interattiva su `http://localhost:8000/docs`.
-
-## Avvio del frontend (PWA)
-
-Il frontend è nella cartella `frontend/`. Non può essere aperto con doppio click
-(il browser bloccherebbe le chiamate all'API per motivi di sicurezza): va servito
-da un piccolo server locale. Con Python già installato, da dentro `frontend/`:
+## Running locally
 
 ```bash
+# Backend
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+uvicorn main:app --reload
+
+# Frontend (separate terminal)
 cd frontend
 python3 -m http.server 5500
 ```
 
-Poi apri `http://localhost:5500` nel browser (anche da telefono, se sei sulla
-stessa rete WiFi del PC, usando l'IP locale del PC al posto di `localhost`).
+Backend: `http://localhost:8000` (interactive API docs at `/docs`)
+Frontend: `http://localhost:5500`
 
-**Importante:** avvia prima il backend (`uvicorn`) e solo dopo il frontend,
-altrimenti la pagina mostrerà errori di connessione.
+## Roadmap
 
-## Struttura del progetto
-
-```
-main.py                 → avvia FastAPI, collega i moduli, abilita CORS
-database.py              → connessione DB condivisa tra tutti i moduli
-finanza/
-  models.py               → tabelle DB + schemi di validazione API
-  logic.py                 → calcoli (budget giornaliero, alert, medie storiche)
-  router.py                → endpoint /finanza/...
-tempo/                    → modulo futuro, struttura già pronta
-studio/                    → modulo futuro, struttura già pronta
-frontend/
-  index.html                → schermata home del modulo finanza
-  css/style.css              → stile (palette bianco/blu, rosso/verde)
-  js/app.js                   → chiamate API, rendering, form nuova transazione
-  manifest.json                → rende la pagina installabile come PWA su Android
-```
-
-## Primo test end-to-end
-
-1. Avvia backend e frontend come sopra
-2. Nell'app, tocca "+ Nuova" e aggiungi una transazione (es. uscita, categoria
-   cibo, importo 15)
-3. Su `/docs` del backend, chiama `POST /finanza/budget` con
-   `{"mese": 10, "anno": 2026, "importo_disponibile": 500}`
-4. Torna sulla PWA e ricarica la pagina: dovresti vedere il cerchio del budget
-   di oggi, entrate/uscite del mese e la transazione appena inserita in lista
-
-## Note
-
-- Tutta la logica di calcolo vive nel backend, non nel frontend — quando la
-  PWA verrà sostituita da React Native, questo backend non cambia.
-- Il database è SQLite (`app.db`), creato automaticamente al primo avvio.
-- Le tabelle hanno prefisso `finanza_` per restare isolate logicamente dai
-  futuri moduli `tempo` e `studio`, pur condividendo lo stesso database.
-- `allow_origins=["*"]` nel CORS va bene solo in sviluppo locale: quando l'app
-  sarà online andrà ristretto al dominio reale del frontend.
+- [x] Finance module — tracking, budgeting, alerts, history
+- [ ] Deploy (GitHub → Render, PostgreSQL)
+- [ ] Time management module
+- [ ] Study tracking module
+- [ ] React Native migration
