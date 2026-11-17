@@ -1,3 +1,4 @@
+#AI generated
 """
 Database condiviso tra tutti i moduli (finanza, tempo, studio).
 Ogni modulo definisce le proprie tabelle in models.py, ma usano
