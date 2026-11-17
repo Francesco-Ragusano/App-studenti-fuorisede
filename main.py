@@ -1,9 +1,3 @@
-"""
-Entry point dell'app.
-I moduli tempo/ e studio/ sono già pronti come cartelle: quando avranno
-un router.py, basterà aggiungere un app.include_router(...) qui sotto,
-con lo stesso pattern usato per finanza.
-"""
 import os
 
 from fastapi import FastAPI
