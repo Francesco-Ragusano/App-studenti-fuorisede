@@ -1,8 +1,6 @@
-# App Studenti Fuori Sede
+# Stundent's Personal Organization 
 
-A personal organization app for students — currently in development, starting with the finance module.
-
-**Status:** active development · personal use
+A personal organization app for students — currently in development, starting with the finance module. Most of the code writing has been handled by Claude AI following the project blueprint.
 
 ## What it does
 
@@ -17,42 +15,17 @@ Two more modules are planned: time management and study tracking, sharing the sa
 
 - **Backend:** FastAPI + SQLAlchemy (SQLite locally, PostgreSQL in production)
 - **Frontend:** Progressive Web App (vanilla HTML/CSS/JS) — installable on Android, no build step
-- **Planned:** migration to React Native for native iOS/Android distribution
+- **For the future:** migration to React Native for native iOS/Android distribution
 
 ## Project structure
 
 ```
 main.py              FastAPI entry point, CORS, module routing
 database.py           Shared DB connection across modules
-finanza/               Finance module (models, business logic, API routes)
+finanza/               Finance module (models, logic, API routes)
 tempo/                  Time management module (scaffolded, not yet built)
 studio/                  Study tracking module (scaffolded, not yet built)
 frontend/
   index.html             App shell
   css/, js/                Styles and client logic
 ```
-
-## Running locally
-
-```bash
-# Backend
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-uvicorn main:app --reload
-
-# Frontend (separate terminal)
-cd frontend
-python3 -m http.server 5500
-```
-
-Backend: `http://localhost:8000` (interactive API docs at `/docs`)
-Frontend: `http://localhost:5500`
-
-## Roadmap
-
-- [x] Finance module — tracking, budgeting, alerts, history
-- [ ] Deploy (GitHub → Render, PostgreSQL)
-- [ ] Time management module
-- [ ] Study tracking module
-- [ ] React Native migration
