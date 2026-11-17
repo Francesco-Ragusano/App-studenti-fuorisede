@@ -35,8 +35,6 @@ async function caricaBudgetOggi() {
     const dati = await res.json();
     renderRing(dati);
 
-    // Nessun budget per il mese corrente: è il momento di chiederlo
-    // (primo avvio dell'app, oppure semplicemente inizio di un nuovo mese).
     if (dati.messaggio && !overlayBudget.classList.contains("modal-overlay--open")) {
       apriModaleBudget({ obbligatoria: true });
     }
@@ -180,7 +178,7 @@ function impostaTipo(tipo) {
   document.querySelectorAll(".toggle-tipo__btn").forEach((b) => {
     b.classList.toggle("toggle-tipo__btn--active", b.dataset.tipo === tipo);
   });
-  // Il livello di necessità ha senso solo per le uscite.
+  
   document.getElementById("field-necessita").style.display = tipo === "uscita" ? "flex" : "none";
 }
 
@@ -357,7 +355,7 @@ function renderStorico(transazioni) {
     return;
   }
 
-  // Raggruppa per data (già ordinate dal backend, più recenti prima).
+  // Raggruppa per data
   const gruppi = {};
   transazioni.forEach((t) => {
     if (!gruppi[t.data]) gruppi[t.data] = [];
