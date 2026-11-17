@@ -1,7 +1,3 @@
-// Base URL del backend.
-// In locale punta automaticamente a uvicorn su :8000.
-// Online, va sostituito con l'indirizzo reale del backend dopo il deploy
-// (es. "https://finanza-backend.onrender.com/finanza").
 const API_BASE = (() => {
   const inLocale = ["localhost", "127.0.0.1"].includes(location.hostname);
   return inLocale
