@@ -17,9 +17,6 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="App Studenti Fuori Sede")
 
-# Permette al frontend (servito su un'altra origine/porta) di chiamare questa API.
-# In locale resta aperto a tutti ("*"). In produzione, imposta la variabile
-# d'ambiente FRONTEND_URL con l'indirizzo reale del frontend per restringerlo.
 origini_consentite = os.environ.get("FRONTEND_URL", "*")
 app.add_middleware(
     CORSMiddleware,
@@ -30,12 +27,6 @@ app.add_middleware(
 
 app.include_router(finanza_router, prefix="/finanza", tags=["finanza"])
 
-# Futuro:
-# from tempo.router import router as tempo_router
-# app.include_router(tempo_router, prefix="/tempo", tags=["tempo"])
-#
-# from studio.router import router as studio_router
-# app.include_router(studio_router, prefix="/studio", tags=["studio"])
 
 
 @app.get("/")
