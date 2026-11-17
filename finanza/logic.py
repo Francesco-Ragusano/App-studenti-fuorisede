@@ -1,8 +1,5 @@
 """
-Logica "intelligente" del modulo finanza.
-Tutto quello che è calcolo (non semplice lettura/scrittura) vive qui,
-così il frontend (PWA oggi, React Native domani) riceve già risposte
-pronte dall'API, senza dover ricalcolare nulla lato client.
+Logica del modulo finanza.
 """
 import calendar
 from datetime import date
